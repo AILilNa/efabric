@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<header class="bg-secondary py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Sales forecast</h1>
+        </div>
+    </div>
+</header>
+<div class="container mt-5">
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="category">Select Category:</label>
+            <select class="form-control" id="category" name="category">
+                {% for category in categories %}
+                    <option value="{{ category.name|capfirst }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        <br><br/>
+        </div>
+        <div class="form-group">
+            <label for="date">Select Date:</label>
+            <input type="date" class="form-control" id="date" name="date">
+        </div>
+        <br><br/>
+        <button type="submit" class="btn btn-primary">Get Forecast</button>
+    </form>
+
+    {% if predicted_sales_count %}
+    <div class="mt-5">
+        <h3>Predicted Sales Count</h3>
+
+        <p>Number of forecasted sales for {{ category }} in {{ date }}: {{ predicted_sales_count }}</p>
+    </div>
+    {% endif %}
+
+    {% if plot_uri %}
+    <div class="mt-5">
+        <h3>Sales Forecast Plot</h3>
+        <img src="data:image/png;base64,{{ plot_uri }}" alt="Sales Forecast Plot">
+    </div>
+    {% endif %}
+
+<br><br/><br><br/><br><br/><br><br/><br><br/><br><br/>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<header class="bg-secondary py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Order</h1>
+        </div>
+    </div>
+</header>
+<br/>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3"></div>
+        <div class="card">
+        <div class="card-header">
+            Order:
+        </div>
+        <div class="card-body">
+            {% for product in cart_products %}
+                {{product.name}}
+
+            {% if product.is_sale %}
+                {{ product.price_sale }} UAH
+
+            {% else %}
+                {{ product.price }} UAH
+            {% endif %}
+            <br/>
+
+                <small>Quantity:
+
+                {% for key, value in quantities.items %}
+                    {% if key == product.id|slugify %} {{ value }}
+                    {% endif %}
+                {% endfor %}
+
+                </small>
+                <br><br/>
+
+            {% endfor %}
+
+            <b>Total price: {{total_price}} UAH</b>
+            <br><br/>
+            <a href="{% url 'cart_all' %}" class="btn btn-secondary"> Back </a>
+        </div>
+        </div>
+
+        <div class="card">
+        <div class="card-header">
+            Shipping:
+        </div>
+        <div class="card-body">
+            <form method="post" action="{% url 'order' %}">
+                        {% csrf_token %}
+                        {{ shipping_form.as_p }}
+                        {% if shipping_form.errors %}
+                            <div class="alert alert-danger">
+                                <ul>
+                                    {% for field in shipping_form %}
+                                        {% for error in field.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        <button type="submit" class="btn btn-success"> Continue </button>
+                    </form>
+    </div>
+    </div>
+
+<br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/>
+<br><br/><br><br/>
+
+    </div>
+</div>
+
+{% endblock %}

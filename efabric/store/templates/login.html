@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<header class="bg-secondary py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Login</h1>
+            <p class="lead fw-normal text-white mb-0">Please log in to continue</p>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row  justify-content-center">
+        <div class="col-md-6 offset-md-3">
+            <div class="d-flex align-items-center">
+                <br><br/>
+
+                <form class="text-center" method="POST" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <div class="mb-5">
+                        <label>
+                            <input type="text" class="form-control" name="username" placeholder="Enter username" required>
+                        </label>
+                    </div>
+                    <div class="mb-3">
+                        <label>
+                            <input type="password" class="form-control" name="password" placeholder="Enter password" required>
+                        </label>
+                    </div>
+                    <br><br/>
+                    <button type="submit" class="btn btn-secondary">Continue</button>
+                </form>
+
+                {% if messages %}
+                    <div class="mt-3">
+                        {% for message in messages %}
+                            <div class="alert alert-info">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
